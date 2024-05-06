@@ -35,7 +35,7 @@ image:
 ```
 example:
 
-```agsl
+```bash
 image:
   name: europe-docker.pkg.dev/shared/docker-repo-shared/cloud-sdk-company-01-cicd-be:1.0.0
   username: _json_key

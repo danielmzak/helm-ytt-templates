@@ -4,7 +4,7 @@
 
 ```
 # switch to helm-ytt-templates/be-apps/_be_template folder
-# note use _ytt/config/cfg.yaml as source config for typical company-01 BE
+# note use _ytt/config/cfg.yaml as source config for typical company-01 BE microservice
 cp _ytt/config/cfg.yaml _new_projects/<cfg-new-project-name.yaml>
 ```
 
@@ -17,7 +17,7 @@ cd scripts && ./wytt_proj.py --cfg <cfg-new-project-name.yaml>
 
 ### if neccessary, check/edit generated files, then:
 
-```agsl
+```bash
 ./wytt_gen.py --app <new-project-name>
 ```
 

@@ -19,8 +19,8 @@
 
 - this script [`wytt_proj.py`](./be-apps/_be_template/scripts/wytt_proj.py) creates new folder from config file and copy it here + change necessary files
 - this script [`wytt_gen.py`](./be-apps/_be_template/scripts/wytt_gen.py) then generates from [ytt](https://carvel.dev/ytt/) template files resulting chart and scripts used in cicd
-    - template-values.yaml](./be-apps/_be_template/_ytt/value-templates/template-values.yaml)
-    - and [Scripts](./be-apps/_be_template/_ytt/script_templates/)
+    - [`template-values.yaml`](./be-apps/_be_template/_ytt/value-templates/template-values.yaml)
+    - and [scripts](./be-apps/_be_template/_ytt/script_templates/)
 ---
 - in CICD pipelines then we can use:
 ```
@@ -52,4 +52,4 @@
 
 ```
 
-- and example of microservice roles [dev-gsa-ksa.sh](./be-apps/sube-dummy-service/scripts/dev-gsa-ksa.sh) whis was also generated via [gsa-ksa.sh.txt](./be-apps/_be_template/_ytt/script_templates/gsa-ksa.sh.txt)
+- and example of microservice roles [`dev-gsa-ksa.sh`](./be-apps/sube-dummy-service/scripts/dev-gsa-ksa.sh) whis was also generated via [`gsa-ksa.sh.txt`](./be-apps/_be_template/_ytt/script_templates/gsa-ksa.sh.txt)
