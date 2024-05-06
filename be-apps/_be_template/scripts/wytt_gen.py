@@ -19,7 +19,6 @@ from ruamel.yaml import YAML
 from wytt_utils import wytt_utils_find_paths
 
 SCRIPTS = ["env-vars.sh", "gsa-ksa.sh", "helm-pre-deploy.sh", "snippets.sh"]
-PROFILES = ["dev", "staging", "prod"]
 SCRIPT_TEMPLATE_RELATIVE_PATH = "be-apps/_be_template/_ytt/script_templates"
 OUTPUT_SCRIPT_PATH = "scripts"
 
