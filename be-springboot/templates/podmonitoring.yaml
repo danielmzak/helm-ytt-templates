@@ -1,0 +1,14 @@
+apiVersion: monitoring.googleapis.com/v1
+kind: PodMonitoring
+metadata:
+  name: {{ include "be-springboot.fullname" . }}
+  labels:
+    {{- include "be-springboot.labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      {{- include "be-springboot.selectorLabels" . | nindent 6 }}
+  endpoints:
+    - port: http
+      path: '/actuator/prometheus'
+      interval: 10s

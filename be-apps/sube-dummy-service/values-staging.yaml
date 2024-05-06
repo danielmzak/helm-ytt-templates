@@ -1,0 +1,60 @@
+be-springboot:
+  replicaCount: 1
+  image:
+    repository: europe-west1-docker.pkg.dev/staging-001/docker-repo-staging/sube-dummy-service-staging
+    pullPolicy: Always
+    tag: latest
+  imagePullSecrets: []
+  nameOverride: sube-dummy-service
+  fullnameOverride: ""
+  containerPort: 8080
+  appSettings:
+    projectId: staging-001
+    team: be
+    activeProfile: staging
+    devProfile: staging
+    tz: Europe/Prague
+  customEnvironmentVariables: null
+  serviceAccount:
+    create: true
+    annotations: {}
+    name: sube-dummy-service-staging
+  podAnnotations: {}
+  podSecurityContext: {}
+  securityContext: {}
+  service:
+    type: ClusterIP
+    port: 8080
+  ingress:
+    enabled: true
+    className: ""
+    annotations:
+      kubernetes.io/ingress.class: nginx
+      kubernetes.io/tls-acme: "true"
+      cert-manager.io/cluster-issuer: letsencrypt-prod
+      nginx.ingress.kubernetes.io/configuration-snippet: |
+        location /actuator/ {
+          return 403;
+          deny all;
+        }
+    hosts:
+    - host: dummy.staging.shared.dev
+      paths:
+      - path: /
+        pathType: ImplementationSpecific
+    tls:
+    - secretName: sube-dummy-service-staging-tls
+      hosts:
+      - dummy.staging.shared.dev
+  resources: {}
+  hpa:
+    enabled: false
+    minReplicas: 1
+    maxReplicas: 5
+    targetCPUUtilizationPercentage: 65
+  vpa:
+    enabled: true
+    updateMode: false
+  nodeSelector: {}
+  tolerations: []
+  affinity: {}

@@ -1,0 +1,28 @@
+#@data/values
+---
+cfg:
+  version: '1.00'
+  app: sube-dummy-service                                            #! <- fill application name
+  gitRepo: https://bitbucket.org/company-01/sube-dummy-service/src/dev/                                        #! <- fill application repo
+  namespace: sube                                      #! <- fill application namespace
+  team: be                                           #! <- fill team
+  helmAppFolder: be-apps/sube-dummy-service                                  #! <- fill helm folder, format: "be-apps/{app}
+  host: dummy.dev.shared.dev                       #! <- fill hosts (without prefix) example: app.domain.cz
+  helmAppParentChart: be-springboot
+  dockerfilePath: Dockerfile
+  devProfile: dev
+  springProfile: dev
+  projectId: dev-001
+  zoneId: europe-west1-c
+  clusterId: demo-cluster-dev
+  dockerUrlPrefix: europe-west1-docker.pkg.dev
+  dockerUrlSuffix: docker-repo-dev
+  gsaDeploySecret: demo-cluster-dev-gke-deploy-sa
+  useK8sCert: 'true'
+
+  googleServiceAccountRoles:
+  - role: roles/logging.logWriter
+  - role: roles/cloudprofiler.agent
+  - role: roles/cloudtrace.agent
+  - role: roles/secretmanager.secretAccessor
+  - role: roles/cloudsql.client

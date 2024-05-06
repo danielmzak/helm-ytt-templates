@@ -1,0 +1,6 @@
+dependencies:
+- name: be-springboot
+  repository: file://../../be-springboot
+  version: 1.0.0
+digest: sha256:6edbf8419e4acd732cf988756df35dedd53671b57962eb1af6efa0fd4310f04e
+generated: "2024-02-07T05:20:06.156461405+01:00"

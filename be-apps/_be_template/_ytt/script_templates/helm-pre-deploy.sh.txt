@@ -1,0 +1,25 @@
+#!/bin/bash
+(@ load("@ytt:data", "data") @)
+# Code generated. DO NOT EDIT.
+
+CURRENT_DIR=$PWD
+
+#
+# switch to proper cluster
+#
+
+gcloud config set project (@= data.values.cfg.projectId @) && kubectl config use-context gke_(@= data.values.cfg.projectId @)_(@= data.values.cfg.zoneId @)_(@= data.values.cfg.clusterId @)
+
+#
+# pre-deploy app with 0 replicas
+#
+
+cd ../..
+helm upgrade --install --namespace (@= data.values.cfg.namespace @) --create-namespace (@= data.values.cfg.app @)-(@= data.values.cfg.devProfile @) --values (@= data.values.cfg.app @)/values-(@= data.values.cfg.devProfile @).yaml (@= data.values.cfg.app @) --set (@= data.values.cfg.helmAppParentChart @).replicaCount=0
+
+#
+# create google service account with roles and bind it with kubernetes service account
+#
+
+cd "$CURRENT_DIR" || exit
+source (@= data.values.cfg.devProfile @)-gsa-ksa.sh

@@ -1,0 +1,60 @@
+be-springboot:
+  replicaCount: 1
+  image:
+    repository: europe-docker.pkg.dev/prod-001/docker-repo-prod/sube-dummy-service-prod
+    pullPolicy: Always
+    tag: latest
+  imagePullSecrets: []
+  nameOverride: sube-dummy-service
+  fullnameOverride: ""
+  containerPort: 8080
+  appSettings:
+    projectId: prod-001
+    team: be
+    activeProfile: prod
+    devProfile: prod
+    tz: Europe/Prague
+  customEnvironmentVariables: null
+  serviceAccount:
+    create: true
+    annotations: {}
+    name: sube-dummy-service-prod
+  podAnnotations: {}
+  podSecurityContext: {}
+  securityContext: {}
+  service:
+    type: ClusterIP
+    port: 8080
+  ingress:
+    enabled: true
+    className: ""
+    annotations:
+      kubernetes.io/ingress.class: nginx
+      kubernetes.io/tls-acme: "true"
+      cert-manager.io/cluster-issuer: letsencrypt-prod
+      nginx.ingress.kubernetes.io/configuration-snippet: |
+        location /actuator/ {
+          return 403;
+          deny all;
+        }
+    hosts:
+    - host: dummy.shared.app
+      paths:
+      - path: /
+        pathType: ImplementationSpecific
+    tls:
+    - secretName: sube-dummy-service-prod-tls
+      hosts:
+      - dummy.shared.app
+  resources: {}
+  hpa:
+    enabled: false
+    minReplicas: 1
+    maxReplicas: 5
+    targetCPUUtilizationPercentage: 65
+  vpa:
+    enabled: true
+    updateMode: false
+  nodeSelector: {}
+  tolerations: []
+  affinity: {}

@@ -1,0 +1,40 @@
+#!/bin/bash
+(@ load("@ytt:data", "data") @)
+# Code generated. DO NOT EDIT.
+
+#
+# switch to proper cluster
+#
+
+# $ gcloud config set project (@= data.values.cfg.projectId @) && kubectl config use-context gke_(@= data.values.cfg.projectId @)_(@= data.values.cfg.zoneId @)_(@= data.values.cfg.clusterId @)
+
+# go to the be-apps folder
+# $ cd ../../
+
+#
+# helm snippet(s)
+#
+
+# $ helm install --namespace (@= data.values.cfg.namespace @) (@= data.values.cfg.app @)-(@= data.values.cfg.devProfile @) --values (@= data.values.cfg.app @)/values-(@= data.values.cfg.devProfile @).yaml (@= data.values.cfg.app @) --dry-run --debug
+# $ helm install --namespace (@= data.values.cfg.namespace @) (@= data.values.cfg.app @)-(@= data.values.cfg.devProfile @) --values (@= data.values.cfg.app @)/values-(@= data.values.cfg.devProfile @).yaml (@= data.values.cfg.app @)
+
+# $ helm upgrade --namespace (@= data.values.cfg.namespace @) (@= data.values.cfg.app @)-(@= data.values.cfg.devProfile @) --values (@= data.values.cfg.app @)/values-(@= data.values.cfg.devProfile @).yaml (@= data.values.cfg.app @) --dry-run --debug
+# $ helm upgrade --namespace (@= data.values.cfg.namespace @) (@= data.values.cfg.app @)-(@= data.values.cfg.devProfile @) --values (@= data.values.cfg.app @)/values-(@= data.values.cfg.devProfile @).yaml (@= data.values.cfg.app @)
+
+# $ helm upgrade --install --namespace (@= data.values.cfg.namespace @) (@= data.values.cfg.app @)-(@= data.values.cfg.devProfile @) --values (@= data.values.cfg.app @)/values-(@= data.values.cfg.devProfile @).yaml (@= data.values.cfg.app @) --dry-run --debug
+
+# use in ci/cd
+# $ helm upgrade --install --namespace (@= data.values.cfg.namespace @) --create-namespace (@= data.values.cfg.app @)-(@= data.values.cfg.devProfile @) --values (@= data.values.cfg.app @)/values-(@= data.values.cfg.devProfile @).yaml (@= data.values.cfg.app @)
+
+#
+# pipeline snippet(s)
+#
+
+#    - step: &redeploy-to-(@= data.values.cfg.devProfile @)
+#        name: Build & Deploy to (@= data.values.cfg.devProfile @)
+#        deployment: (@= data.values.cfg.devProfile @)
+#        <<: *step_configuration
+#        script:
+#          - git clone git@bitbucket.org:company-01/helm-ytt-templates.git
+#          - source helm-ytt-templates/be-apps/(@= data.values.cfg.helmAppFolder @)/scripts/(@= data.values.cfg.devProfile @)-env-vars.sh
+#          - source helm-ytt-templates/cicd/scripts/build_and_deploy.sh true

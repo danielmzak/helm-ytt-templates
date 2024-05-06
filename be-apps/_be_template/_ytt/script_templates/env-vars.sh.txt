@@ -1,0 +1,21 @@
+#!/bin/bash
+(@ load("@ytt:data", "data") @)
+# Code generated. DO NOT EDIT.
+
+#
+# exported vars
+#
+
+export CICD_BITBUCKET_COMMIT="$BITBUCKET_COMMIT"
+export CICD_DEV_PROFILE="(@= data.values.cfg.devProfile @)"
+export CICD_DOCKER_BASE_URL="(@= data.values.cfg.dockerUrlPrefix @)"
+export CICD_DOCKER_REPO_NAME="(@= data.values.cfg.dockerUrlSuffix @)"
+export CICD_APP_NAME="(@= data.values.cfg.app  @)"
+export CICD_NAMESPACE="(@= data.values.cfg.namespace @)"
+export CICD_GKE_PROJECT_ID="(@= data.values.cfg.projectId @)"
+export CICD_GKE_CLUSTER_NAME="(@= data.values.cfg.clusterId @)"
+export CICD_GKE_ZONE_NAME="(@= data.values.cfg.zoneId @)"
+export CICD_APP_HELM_FOLDER="(@= data.values.cfg.helmAppFolder @)"
+export CICD_APP_HELM_PARENT_CHART="(@= data.values.cfg.helmAppParentChart @)"
+export CICD_DOCKERFILE_PATH="(@= data.values.cfg.dockerfilePath @)"
+export CICD_GSA_DEPLOY_SECRET="(@= data.values.cfg.gsaDeploySecret @)"

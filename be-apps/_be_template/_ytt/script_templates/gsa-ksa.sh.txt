@@ -1,0 +1,41 @@
+#!/bin/bash
+(@ load("@ytt:data", "data") @)
+# Code generated. DO NOT EDIT.
+
+#
+# create GSA (Google Service Account) for app and bind it /with KSA
+#
+
+ERR_MSG=$(gcloud iam service-accounts describe (@= data.values.cfg.app @)-gsa@(@= data.values.cfg.projectId @).iam.gserviceaccount.com 2>&1 | grep ERROR)
+
+if [[ "$ERR_MSG" == *"ERROR"* ]]; then
+    echo "Service account doesn't exist - creating one"
+    gcloud iam service-accounts create (@= data.values.cfg.app @)-gsa \
+       --description="GSA for (@= data.values.cfg.app @) on (@= data.values.cfg.devProfile @)" \
+       --display-name="app: (@= data.values.cfg.app @)-gsa"
+else
+    echo "Service account already exist - skipping ..."
+fi
+
+#
+# GSA roles
+#
+
+echo "->roles" ; \
+(@ gsar = [] -@)
+(@ for gsar in data.values.cfg.googleServiceAccountRoles: -@)
+    gcloud projects add-iam-policy-binding (@= data.values.cfg.projectId @) --member="serviceAccount:(@= data.values.cfg.app @)-gsa@(@= data.values.cfg.projectId @).iam.gserviceaccount.com" --role="(@= gsar.role @)" ; \
+(@ end -@)
+    echo "<-roles"
+
+#
+# bind GSA and KSA
+#
+
+gcloud iam service-accounts add-iam-policy-binding (@= data.values.cfg.app @)-gsa@(@= data.values.cfg.projectId @).iam.gserviceaccount.com \
+    --role roles/iam.workloadIdentityUser \
+    --member "serviceAccount:(@= data.values.cfg.projectId @).svc.id.goog[(@= data.values.cfg.namespace @)/(@= data.values.cfg.app @)-(@= data.values.cfg.devProfile @)]"
+
+kubectl annotate serviceaccount (@= data.values.cfg.app @)-(@= data.values.cfg.devProfile @) \
+    --namespace (@= data.values.cfg.namespace @) \
+    iam.gke.io/gcp-service-account=(@= data.values.cfg.app @)-gsa@(@= data.values.cfg.projectId @).iam.gserviceaccount.com

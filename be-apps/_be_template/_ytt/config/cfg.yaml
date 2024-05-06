@@ -1,0 +1,59 @@
+#@data/values
+---
+cfg:
+  infraProfiles:
+    - dev
+    - staging
+    - prod
+  version: "1.00"
+  app: ""                                          #! <- fill application name
+  gitRepo: ""                                      #! <- fill application repo
+  namespace: ""                                    #! <- fill application namespace
+  team: ""                                         #! <- fill team
+  helmAppFolder: ""                                #! <- fill helm folder, format: "be-apps/{app}
+  host:                                            #! <- fill hosts (without prefix) example: app.domain.cz
+    dev: ""
+    staging: ""
+    prod: ""
+  helmAppParentChart: "be-springboot"
+  dockerfilePath: "Dockerfile"
+  devProfile:
+    dev: "dev"
+    staging: "staging"
+    prod: "prod"
+  springProfile:
+    dev: "dev"
+    staging: "staging"
+    prod: "prod"
+  projectId:
+    dev: "dev-001"
+    staging: "staging-001"
+    prod: "prod-001"
+  zoneId:
+    dev: "europe-west1-c"
+    staging: "europe-west1-c"
+    prod: "europe-west3-a"
+  clusterId:
+    dev: "demo-cluster-dev"
+    staging: "demo-cluster-staging"
+    prod: "demo-cluster-prod"
+  dockerUrlPrefix:
+    dev: "europe-west1-docker.pkg.dev"
+    staging: "europe-west1-docker.pkg.dev"
+    prod: "europe-docker.pkg.dev"
+  dockerUrlSuffix:
+    dev: "docker-repo-dev"
+    staging: "docker-repo-staging"
+    prod: "docker-repo-prod"
+  gsaDeploySecret:
+    dev: "demo-cluster-dev-gke-deploy-sa"
+    staging: "demo-cluster-staging-gke-deploy-sa"
+    prod: "demo-cluster-prod-gke-deploy-sa"
+  useK8sCert: "true"
+
+  googleServiceAccountRoles:
+    - role: "roles/logging.logWriter"
+    - role: "roles/cloudprofiler.agent"
+    - role: "roles/cloudtrace.agent"
+    - role: "roles/secretmanager.secretAccessor"
+    - role: "roles/cloudsql.client"

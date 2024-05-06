@@ -1,0 +1,113 @@
+#@ load("@ytt:data", "data")
+#! version 1.00
+
+#! Default values for app.
+#! This is a YAML-formatted file.
+#! Declare raw variables to be passed into your templates via ytt
+
+be-springboot:
+  replicaCount: 1
+
+  image:
+    repository: #@ data.values.cfg.dockerUrlPrefix + "/" + data.values.cfg.projectId + "/" + data.values.cfg.dockerUrlSuffix + "/" + data.values.cfg.app + "-" + data.values.cfg.devProfile
+    pullPolicy: Always
+    #! Overrides the image tag whose default is the chart appVersion.
+    tag: "latest"
+
+  imagePullSecrets: []
+  nameOverride: #@ data.values.cfg.app
+  fullnameOverride: ""
+
+  containerPort: 8080
+
+  appSettings:
+    projectId: #@ data.values.cfg.projectId
+    team: #@ data.values.cfg.team
+    activeProfile: #@ data.values.cfg.springProfile
+    devProfile: #@ data.values.cfg.devProfile
+    tz: "Europe/Prague"
+
+  #! Custom environment variables
+  customEnvironmentVariables:
+
+  serviceAccount:
+    #! Specifies whether a service account should be created
+    create: true
+    #! Annotations to add to the service account
+    annotations: {}
+    #! The name of the service account to use.
+    #! If not set and create is true, a name is generated using the fullname template
+    name: #@ data.values.cfg.app + "-" + data.values.cfg.devProfile
+
+  podAnnotations: {}
+
+  podSecurityContext: {}
+    #! fsGroup: 2000
+
+  securityContext: {}
+    #! capabilities:
+    #!   drop:
+    #!   - ALL
+    #! readOnlyRootFilesystem: true
+    #! runAsNonRoot: true
+    #! runAsUser: 1000
+
+  service:
+    type: ClusterIP
+    port: 8080
+
+  ingress:
+    enabled: true
+    className: ""
+    annotations:
+      kubernetes.io/ingress.class: nginx
+      #@ if data.values.cfg.useK8sCert == "true":
+      kubernetes.io/tls-acme: "true"
+      cert-manager.io/cluster-issuer: letsencrypt-prod
+      #@ end
+      nginx.ingress.kubernetes.io/configuration-snippet: |
+        location /actuator/ {
+          return 403;
+          deny all;
+        }
+    hosts:
+      - host: #@ data.values.cfg.host
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+    #@ if data.values.cfg.useK8sCert == "true":
+    tls:
+      - secretName: #@ data.values.cfg.app + "-" + data.values.cfg.devProfile + "-tls"
+        hosts:
+          - #@ data.values.cfg.host
+    #@ end
+  resources: {}
+    #! We usually recommend not to specify default resources and to leave this as a conscious
+    #! choice for the user. This also increases chances charts run on environments with little
+    #! resources, such as Minikube. If you do want to specify resources, uncomment the following
+    #! lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+    #! limits:
+    #!   cpu: 100m
+    #!   memory: 128Mi
+    #! requests:
+    #!   cpu: 100m
+    #!   memory: 128Mi
+
+  #! horizontal autoscaling
+  hpa:
+    enabled: false
+    minReplicas: 1
+    maxReplicas: 5
+    targetCPUUtilizationPercentage: 65
+    #! targetMemoryUtilizationPercentage: 65
+
+  #! vertical autoscaling
+  vpa:
+    enabled: true
+    updateMode: Off
+
+  nodeSelector: {}
+
+  tolerations: []
+
+  affinity: {}
