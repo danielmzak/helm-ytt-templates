@@ -35,7 +35,7 @@
 ```
 - see: generated env settings [`dev-env-vars.sh`](./be-apps/sube-dummy-service/scripts/dev-env-vars.sh)
 - see: [cicd scrips](./cicd/scripts/)
-- this process could be simplified (redeploy-to-{env}, but bitbucket have same limits (doable in github/gitlab))
+- this process could be simplified (redeploy-to-{env-variable}), but bitbucket have same limits (doable in github/gitlab))
 
 ---
 ## Notes:
@@ -52,4 +52,4 @@
 
 ```
 
-- and example of microservice roles [`dev-gsa-ksa.sh`](./be-apps/sube-dummy-service/scripts/dev-gsa-ksa.sh) whis was also generated via [`gsa-ksa.sh.txt`](./be-apps/_be_template/_ytt/script_templates/gsa-ksa.sh.txt)
+- and example of microservice roles [`dev-gsa-ksa.sh`](./be-apps/sube-dummy-service/scripts/dev-gsa-ksa.sh) which was also generated via [`gsa-ksa.sh.txt`](./be-apps/_be_template/_ytt/script_templates/gsa-ksa.sh.txt)
