@@ -1,6 +1,6 @@
 # README
 
-- Example of using HELM charts with YTT templates in CICD pipelines
+- Example of using HELM charts with YTT templates (https://carvel.dev/ytt/) in CICD pipelines
 
 ---
 ## Basic idea:
